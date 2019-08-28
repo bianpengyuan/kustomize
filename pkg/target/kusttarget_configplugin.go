@@ -65,6 +65,7 @@ func (kt *KustTarget) configureBuiltinTransformers(
 	configurators := []transformerConfigurator{
 		kt.configureBuiltinPatchStrategicMergeTransformer,
 		kt.configureBuiltinPatchTransformer,
+		kt.configureBuiltinPatchConfigMapTransformer,
 		kt.configureBuiltinNamespaceTransformer,
 		kt.configureBuiltinNameTransformer,
 		kt.configureBuiltinLabelTransformer,
@@ -124,6 +125,21 @@ func (kt *KustTarget) configureBuiltinConfigMapGenerator() (
 		}
 		result = append(result, p)
 	}
+	return
+}
+
+func (kt *KustTarget) configureBuiltinPatchConfigMapTransformer(
+	tConfig *config.TransformerConfig) (
+	result []transformers.Transformer, err error) {
+	// var c struct{}
+	// c.Namespace = kt.kustomization.Namespace
+	// c.FieldSpecs = tConfig.NameSpace
+	p := builtin.NewPatchConfigMapPlugin()
+	err = kt.configureBuiltinPlugin(p, nil, "IstioConfigMap")
+	if err != nil {
+		return nil, err
+	}
+	result = append(result, p)
 	return
 }
 

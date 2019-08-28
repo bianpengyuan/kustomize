@@ -140,6 +140,8 @@ type Kustomization struct {
 	// Inventory appends an object that contains the record
 	// of all other objects, which can be used in apply, prune and delete
 	Inventory *Inventory `json:"inventory,omitempty" yaml:"inventory:omitempty"`
+
+	IstioConfigMap string `json:"istioConfigMap,omitempty" yaml:"istioConfigMap:omitempty"`
 }
 
 //go:generate stringer -type=GarbagePolicy
